@@ -3,7 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/api-passenger/api-passenger.iml" filepath="$PROJECT_DIR$/api-passenger/api-passenger.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/online-taxi-public.iml" filepath="$PROJECT_DIR$/.idea/online-taxi-public.iml" />
+      <module fileurl="file://$PROJECT_DIR$/online-taxi-public.iml" filepath="$PROJECT_DIR$/online-taxi-public.iml" />
+      <module fileurl="file://$PROJECT_DIR$/service-verificaioncode/service-verificaioncode.iml" filepath="$PROJECT_DIR$/service-verificaioncode/service-verificaioncode.iml" />
     </modules>
   </component>
 </project>
