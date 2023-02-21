@@ -1,14 +1,6 @@
 
 ä
 Zservice-verificaioncode/src/main/java/com/mashibing/service/controller/TestController.java,0/3/03e491a25233a26282bc17624e7dd117320b5e53
-É
-Sapi-passenger/src/main/java/com/mashibing/apipassenger/ApiPassengerApplication.java,e/c/ec8c720c79264898b0c3f70a579ad0fa3b3eff17
-à
-Xservice-verificaioncode/src/main/java/com/mashibing/service/ServiceVerificationcode.java,9/d/9d1d43364acefdbb9f3ae8bd11484e982d49a28d
-G
-internal-common/pom.xml,b/8/b861d8221d47c3f1177f78fb644bae9f89b1d172
-ê
-`service-verificaioncode/src/main/java/com/mashibing/service/controller/NumberCodeController.java,4/5/45a5c3663c52302ad83da1d0419e3549158410ee
 Ç
 Rinternal-common/src/main/java/com/mashibing/internalcommon/dto/ResponseResult.java,4/2/4242e64678f593130bbd3a5bd8ba8e7ebb816f79
 â
