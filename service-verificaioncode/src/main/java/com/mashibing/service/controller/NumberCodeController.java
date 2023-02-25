@@ -25,9 +25,4 @@ public class NumberCodeController {
 
         return ResponseResult.success(response);
     }
-
-    public static void main(String[] args) {
-        // 获取随机数
-
-    }
 }
