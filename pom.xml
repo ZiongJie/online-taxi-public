@@ -18,6 +18,7 @@
         <module>api-passenger</module>
         <module>service-verificaioncode</module>
         <module>internal-common</module>
+        <module>service-passenger-user</module>
     </modules>
 
     <packaging>pom</packaging>

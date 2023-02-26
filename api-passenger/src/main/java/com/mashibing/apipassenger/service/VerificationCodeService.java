@@ -1,10 +1,11 @@
 package com.mashibing.apipassenger.service;
 
 import com.mashibing.apipassenger.remote.ServiceVerificationcodeClient;
+import com.mashibing.internalcommon.constant.CommonStatusEnum;
 import com.mashibing.internalcommon.dto.ResponseResult;
 import com.mashibing.internalcommon.response.NumberCodeResponse;
 import com.mashibing.internalcommon.response.TokenResponse;
-import net.sf.json.JSONObject;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
@@ -40,7 +41,7 @@ public class VerificationCodeService {
         // 存入redis
         System.out.println("存入redis");
         // key,value,过期时间
-        String key = verificationcodePrefix + passengerPhone;
+        String key = generatorKeyByPhone(passengerPhone);
         // 存入redis
         stringRedisTemplate.opsForValue().set(key, numberCode+"", 2, TimeUnit.MINUTES);
 
@@ -58,11 +59,25 @@ public class VerificationCodeService {
      * @return
      */
     public ResponseResult checkCode(String passengerPhone, String verificationCode) {
+
         // 根据手机号，去redis校验验证码
-        System.out.println("根据手机号，去redis读取验证码");
+        // 生成key
+        String key = generatorKeyByPhone(passengerPhone);
+
+        // 根据key获取value
+        String codeRedis = stringRedisTemplate.opsForValue().get(key);
+        System.out.println("redis中的value" + codeRedis);
 
         // 校验验证码
-        System.out.println("判断原来是否有用户，并进行对应处理");
+        if (StringUtils.isBlank(codeRedis)) {
+            return ResponseResult.fail(CommonStatusEnum.VERIFICATION_CODE_ERROR.getCode(), CommonStatusEnum.VERIFICATION_CODE_ERROR.getValue());
+        }
+        // trim删除字符串前后的空白符
+        if (verificationCode.trim().equals(codeRedis.trim())) {
+            return ResponseResult.fail(CommonStatusEnum.VERIFICATION_CODE_ERROR.getCode(), CommonStatusEnum.VERIFICATION_CODE_ERROR.getValue());
+        }
+
+        // 判断原来是否有用户，并进行对应的处理
 
         // 颁发令牌
         System.out.println("颁发令牌");
@@ -71,5 +86,14 @@ public class VerificationCodeService {
         TokenResponse tokenResponse = new TokenResponse();
         tokenResponse.setToken("token value");
         return ResponseResult.success(tokenResponse);
+    }
+
+    /**
+     * 根据手机号，生成key
+     * @param passengerPhone
+     * @return
+     */
+    private String generatorKeyByPhone(String passengerPhone) {
+        return verificationcodePrefix + passengerPhone;
     }
 }
