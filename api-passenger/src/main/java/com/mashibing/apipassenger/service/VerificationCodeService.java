@@ -9,6 +9,7 @@ import com.mashibing.internalcommon.request.VerificationCodeDTO;
 import com.mashibing.internalcommon.response.NumberCodeResponse;
 import com.mashibing.internalcommon.response.TokenResponse;
 import com.mashibing.internalcommon.util.JwtUtils;
+import com.mashibing.internalcommon.util.RedisPrefixUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -16,17 +17,13 @@ import org.springframework.stereotype.Service;
 
 import java.util.concurrent.TimeUnit;
 
+import static com.mashibing.internalcommon.util.RedisPrefixUtils.generatorKeyByPhone;
+
 @Service
 public class VerificationCodeService {
 
     @Autowired
     private ServiceVerificationcodeClient serviceVerificationcodeClient;
-
-    // 乘客验证码的前缀
-    private String verificationcodePrefix = "passenger-verification-code-";
-
-    // token存储的前缀
-    private String tokenPrefix = "token-";
 
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
@@ -49,7 +46,7 @@ public class VerificationCodeService {
         // 存入redis
         System.out.println("存入redis");
         // key,value,过期时间
-        String key = generatorKeyByPhone(passengerPhone);
+        String key = RedisPrefixUtils.generatorKeyByPhone(passengerPhone);
         // 存入redis
         stringRedisTemplate.opsForValue().set(key, numberCode+"", 2, TimeUnit.MINUTES);
 
@@ -58,25 +55,6 @@ public class VerificationCodeService {
 
         // 返回值
         return ResponseResult.success();
-    }
-
-    /**
-     * 根据手机号，生成key
-     * @param passengerPhone
-     * @return
-     */
-    private String generatorKeyByPhone(String passengerPhone) {
-        return verificationcodePrefix + passengerPhone;
-    }
-
-    /**
-     * 根据手机号和身份表示生成key
-     * @param phone
-     * @param identity
-     * @return
-     */
-    private String generatorTokenKey(String phone, String identity) {
-        return tokenPrefix + phone + "-" + identity;
     }
 
     @Autowired
@@ -92,7 +70,7 @@ public class VerificationCodeService {
 
         // 根据手机号，去redis校验验证码
         // 生成key
-        String key = generatorKeyByPhone(passengerPhone);
+        String key = RedisPrefixUtils.generatorKeyByPhone(passengerPhone);
 
         // 根据key获取value
         String codeRedis = stringRedisTemplate.opsForValue().get(key);
@@ -115,7 +93,7 @@ public class VerificationCodeService {
         // 颁发令牌,不应该用魔法值，用常量
         String token = JwtUtils.generatorToken(passengerPhone, IdentityConstant.PASSENGER_IDENTITY);
         // 将token存到redis当中
-        String tokenKey = generatorTokenKey(passengerPhone, IdentityConstant.PASSENGER_IDENTITY);
+        String tokenKey = RedisPrefixUtils.generatorTokenKey(passengerPhone, IdentityConstant.PASSENGER_IDENTITY);
         stringRedisTemplate.opsForValue().set(tokenKey, token, 30, TimeUnit.DAYS);
 
         // 响应
