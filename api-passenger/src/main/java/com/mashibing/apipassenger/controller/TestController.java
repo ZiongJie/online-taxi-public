@@ -16,7 +16,7 @@ public class TestController {
      * 需要有token
      * @return
      */
-    @GetMapping("authTest")
+    @GetMapping("/authTest")
     public ResponseResult authTest(){
         return ResponseResult.success("auth test");
     }
