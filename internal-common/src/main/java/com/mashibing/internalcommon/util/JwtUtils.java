@@ -3,14 +3,8 @@ package com.mashibing.internalcommon.util;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTCreator;
 import com.auth0.jwt.algorithms.Algorithm;
-import com.auth0.jwt.exceptions.AlgorithmMismatchException;
-import com.auth0.jwt.exceptions.SignatureVerificationException;
-import com.auth0.jwt.exceptions.TokenExpiredException;
-import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.mashibing.internalcommon.constant.TokenConstant;
 import com.mashibing.internalcommon.dto.TokenResult;
-import org.apache.commons.lang.StringUtils;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -30,12 +24,16 @@ public class JwtUtils {
     // token类型
     private static final String JWT_TOKEN_TYPE = "tokenType";
 
+    private static final String JWT_TOKEN_TIME = "tokenTime";
+
     // 生成token
     public static String generatorToken(String passengerPhone, String identity, String tokenType) {
         Map<String, String> map = new HashMap<>();
         map.put(JWT_KEY_PHONE, passengerPhone);
         map.put(JWT_KEY_IDENTITY, identity);
         map.put(JWT_TOKEN_TYPE, tokenType);
+        // 防止每次生成的token一样
+        map.put(JWT_TOKEN_TIME, Calendar.getInstance().getTime().toString());
 
         // token过期时间
         Calendar calendar = Calendar.getInstance();
@@ -80,7 +78,7 @@ public class JwtUtils {
         } catch (Exception e) {
 
         }
-        return null;
+        return tokenResult;
     }
 
     public static void main(String[] args) {

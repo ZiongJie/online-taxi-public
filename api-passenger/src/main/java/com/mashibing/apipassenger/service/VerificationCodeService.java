@@ -18,8 +18,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.concurrent.TimeUnit;
 
-import static com.mashibing.internalcommon.util.RedisPrefixUtils.generatorKeyByPhone;
-
 @Service
 public class VerificationCodeService {
 
