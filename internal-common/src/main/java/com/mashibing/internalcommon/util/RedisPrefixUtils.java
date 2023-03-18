@@ -24,6 +24,6 @@ public class RedisPrefixUtils {
      * @return
      */
     public static String generatorTokenKey(String phone, String identity, String tokenType) {
-        return tokenPrefix + phone + "-" + identity + tokenType;
+        return tokenPrefix + phone + "-" + identity + "-" + tokenType;
     }
 }

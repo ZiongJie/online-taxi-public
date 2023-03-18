@@ -16,7 +16,7 @@ public class JwtUtils {
     // 盐
     private static final String SIGN = "CPFmsb!@#$$";
 
-    private static final String JWT_KEY_PHONE = "Phone";
+    private static final String JWT_KEY_PHONE = "phone";
 
     // 乘客是1，司机是2
     private static final String JWT_KEY_IDENTITY = "identity";
