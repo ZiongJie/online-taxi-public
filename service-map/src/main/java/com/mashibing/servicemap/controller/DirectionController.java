@@ -16,7 +16,7 @@ public class DirectionController {
     @Autowired
     private DirectionService directionService;
 
-    @GetMapping("/direction/driving")
+    @GetMapping("/driving")
     public ResponseResult driving(@RequestBody ForecastPriceDTO forecastPriceDTO) {
 
         String depLongitude = forecastPriceDTO.getDepLongitude();

@@ -24,12 +24,13 @@ public class MapDirectionClient {
 
     public DirectionResponse direction(String depLongitude, String depLatitude, String destLongitude, String destLatitude) {
         // 组装请求调用的url
+        // //restapi.amap.com/v3/direction/driving?key=您的key&origin=116.481028,39.989643&destination=116.434446,39.90816&originid=&destinationid=&extensions=base&strategy=&waypoints=&avoidpolygons=&avoidroad=
         StringBuilder urlBuild = new StringBuilder();
         urlBuild.append(AmapConfigConstants.DIRECTION_URL);
         urlBuild.append("?");
         urlBuild.append("origin=" + depLongitude + "," + depLatitude);
         urlBuild.append("&");
-        urlBuild.append("destination" + destLongitude + "," +destLatitude);
+        urlBuild.append("destination=" + destLongitude + "," +destLatitude);
         urlBuild.append("&");
         urlBuild.append("extensions=base");
         urlBuild.append("&");
@@ -50,7 +51,7 @@ public class MapDirectionClient {
     private DirectionResponse parseDirectionEntity(String directionString) {
         DirectionResponse directionResponse = null;
         try {// 最外层
-            JSONObject result = JSONObject.fromObject(directionResponse);
+            JSONObject result = JSONObject.fromObject(directionString);
             if (result.has(AmapConfigConstants.STATUS)) {
                 int status = result.getInt(AmapConfigConstants.STATUS);
                 if (status == 1) {
